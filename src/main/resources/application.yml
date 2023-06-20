@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database.csa0rivm6ki8.ap-northeast-2.rds.amazonaws.com:3306/AlwaysCare?serverTimezone=Asia/Seoul
-    username: admin
-    password: helloworld
