@@ -1,6 +1,7 @@
 package server.AlwaysCare.domain.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import server.AlwaysCare.domain.user.dto.request.LoginReq;
 import server.AlwaysCare.domain.user.dto.request.SignUpReq;
@@ -38,15 +39,11 @@ public class UserController {
         }
     }
 
+    // jwt 테스트
     @ResponseBody
-    @PostMapping("/check")
-    public BaseResponse<String> login(@RequestBody LoginReq request) throws BaseException{
-        try {
-            LoginRes loginRes = userService.login(request);
-            return new BaseResponse<>(loginRes);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new BaseResponse<>(BaseResponseStatus.POST_USERS_NO_EXISTS_USER);
-        }
+    @PostMapping("/test")
+    public BaseResponse<String> test() throws BaseException{
+        return new BaseResponse<>(SecurityContextHolder.getContext().getAuthentication().getName());
     }
+
 }

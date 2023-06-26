@@ -9,7 +9,7 @@ import server.AlwaysCare.domain.user.dto.response.LoginRes;
 import server.AlwaysCare.domain.user.entity.UserAccount;
 import server.AlwaysCare.domain.user.repository.UserRepository;
 import server.AlwaysCare.global.entity.config.Response.BaseException;
-import server.AlwaysCare.global.entity.config.security.JwtTokenProvider;
+import server.AlwaysCare.global.entity.config.security.jwt.JwtTokenProvider;
 
 import java.util.Optional;
 
@@ -33,11 +33,10 @@ public class UserService {
     public LoginRes login(LoginReq request) throws BaseException {
 
         Optional<UserAccount> optionalUserAccount = userRepository.findByEmail(request.getEmail());
-
         if(optionalUserAccount.isPresent()){
             UserAccount userAccount = optionalUserAccount.get();
             if(request.getPassword().equals(userAccount.getPassword())) {
-                return new LoginRes(jwtTokenProvider.createToken(userAccount.getName(), 1000 * 60 * 60), userAccount.getId());
+                return new LoginRes(jwtTokenProvider.createAccessToken(Long.toString(userAccount.getId())), userAccount.getId());
             }
             else {
                 throw new BaseException(POST_USERS_NO_EXISTS_USER);

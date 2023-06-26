@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -13,7 +12,6 @@ import java.util.Date;
 
 
 @Slf4j
-@Component
 public class JwtTokenProvider {
 
     private static final  String SECRET_KEY = "asdfasdfajsdiofpaejfkaasogapjogjpajmifjasipdmjafhepnevjwiiamjdpjcasdopjfoalek";

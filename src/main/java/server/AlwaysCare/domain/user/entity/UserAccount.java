@@ -1,10 +1,11 @@
 package server.AlwaysCare.domain.user.entity;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import server.AlwaysCare.global.entity.BaseEntity;
+
+import javax.persistence.Entity;
 
 import static lombok.AccessLevel.PROTECTED;
 
