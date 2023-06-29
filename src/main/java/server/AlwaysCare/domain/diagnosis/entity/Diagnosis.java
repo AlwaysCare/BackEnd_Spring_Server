@@ -1,4 +1,4 @@
-package server.AlwaysCare.domain.diary.entity;
+package server.AlwaysCare.domain.diagnosis.entity;
 
 import lombok.Builder;
 import lombok.Data;
@@ -18,22 +18,25 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
+public class Diagnosis extends BaseEntity {
 
-public class Diary extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id")
     private PetAccount pet;
-    private String sentence;
+    private int disease;
+    private int percent;
     private String status;
 
     @Builder
-    public Diary(PetAccount pet, String sentence, String status) {
+    public Diagnosis(PetAccount pet, int disease, int percent, String status) {
         this.pet = pet;
-        this.sentence = sentence;
+        this.disease = disease;
+        this.percent = percent;
         this.status = status;
     }
 
-    public void editDiary(String sentence){
-        this.sentence = sentence;
+    public void editDiagnosis(int disease, int percent){
+        this.disease = disease;
+        this.percent = percent;
     }
 }

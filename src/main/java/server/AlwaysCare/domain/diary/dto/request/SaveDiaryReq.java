@@ -1,11 +1,17 @@
 package server.AlwaysCare.domain.diary.dto.request;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class SaveDiaryReq {
-    Long petId;
+
     String sentence;
+
+    @Builder
+    public SaveDiaryReq(String sentence) {
+        this.sentence = sentence;
+    }
 }

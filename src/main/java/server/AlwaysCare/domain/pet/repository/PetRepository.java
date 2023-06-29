@@ -15,7 +15,14 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface PetRepository extends JpaRepository<PetAccount, Long> {
 
-    @Query(value = "select p.id as petId, p.name as petName, p.imageURL as petImageURL, p.age as petAge, p.type as petType, p.species as petSpecies from PetAccount p where p.user.id = :userId and p.status = 'A' ")
+    @Query(value = "select p.id as petId, \n" +
+            "p.name as petName, \n" +
+            "p.imageURL as petImageURL, \n" +
+            "p.age as petAge, \n" +
+            "p.type as petType, \n" +
+            "p.species as petSpecies \n" +
+            "from PetAccount p \n" +
+            "where p.user.id = :userId and p.status = 'A' ")
     List<GetPetsInterface> findAllMyPetsByUserId(@Param("userId") Long userId);
 
     Optional<PetAccount> findByIdAndStatus(Long petId, String status);

@@ -1,34 +1,32 @@
-package server.AlwaysCare.domain.pet;
+package server.AlwaysCare.domain.diagnosis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import server.AlwaysCare.domain.pet.dto.request.EditPetReq;
-import server.AlwaysCare.domain.pet.dto.request.SavePetReq;
-import server.AlwaysCare.domain.pet.dto.response.GetPetsInterface;
+import server.AlwaysCare.domain.diagnosis.dto.request.EditDiagnosisReq;
+import server.AlwaysCare.domain.diagnosis.dto.request.PrintDiagnosisReq;
+import server.AlwaysCare.domain.diagnosis.dto.request.SaveDiagnosisReq;
+import server.AlwaysCare.domain.diagnosis.dto.response.GetDiagnosisRes;
+import server.AlwaysCare.domain.diagnosis.service.DiagnosisService;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
-import server.AlwaysCare.domain.pet.service.PetService;
 import server.AlwaysCare.global.entity.config.Response.BaseException;
 import server.AlwaysCare.global.entity.config.Response.BaseResponse;
-
-import java.util.List;
 
 import static server.AlwaysCare.global.entity.config.Response.BaseResponseStatus.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/pets")
-public class PetController {
+@RequestMapping("/diagnosis")
+public class DiagnosisController {
 
     private final PetRepository petRepository;
-    private final PetService petService;
+    private final DiagnosisService diagnosisService;
 
-    // 반려동물 정보 저장
+    // 반려동물 질병 저장
     @ResponseBody
-    @PostMapping("/save")
-    public BaseResponse<Long> save(@RequestPart(value = "SaveReq") SavePetReq request, @RequestPart(value = "file", required = false) MultipartFile multipartFile) throws BaseException {
+    @PostMapping("/save/{petId}")
+    public BaseResponse<Long> save(@PathVariable Long petId, @RequestBody SaveDiagnosisReq request) throws BaseException {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String User = loggedInUser.getName();
@@ -36,42 +34,23 @@ public class PetController {
         long id = Long.parseLong(User);
 
         try {
-            Long petId = petService.save(request, multipartFile, id);
-            return new BaseResponse<Long>(petId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new BaseResponse<>(DATABASE_ERROR);
-        }
-    }
-
-    // 반려동물들 정보 출력
-    @ResponseBody
-    @GetMapping("/list/{userId}")
-    public BaseResponse<List<GetPetsInterface>> list(@PathVariable Long userId) throws BaseException {
-
-        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-        String User = loggedInUser.getName();
-
-        long id = Long.parseLong(User);
-
-        try {
+            Long userId = petRepository.findById(petId).get().getUser().getId();
             if(!userId.equals(id)){
                 return new BaseResponse<>(INVALID_JWT);
             }
 
-            List<GetPetsInterface> petsResList = petService.getPetsList(userId);
-            return new BaseResponse<>(petsResList);
-
+            Long diagnosisId = diagnosisService.save(petId, request);
+            return new BaseResponse<>(diagnosisId);
         } catch (Exception e) {
             e.printStackTrace();
             return new BaseResponse<>(DATABASE_ERROR);
         }
     }
 
-    // 반려동물 정보 수정
+    // 반려동물 질병 수정
     @ResponseBody
     @PatchMapping ("/edit/{petId}")
-    public BaseResponse<String> edit(@PathVariable Long petId, @RequestPart(value = "EditPetReq") EditPetReq request, @RequestPart(value = "file", required = false) MultipartFile multipartFile) throws BaseException {
+    public BaseResponse<Long> edit(@PathVariable Long petId, @RequestBody EditDiagnosisReq request) throws BaseException {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String User = loggedInUser.getName();
@@ -80,23 +59,24 @@ public class PetController {
 
         try {
             Long userId = petRepository.findById(petId).get().getUser().getId();
+
             if(!userId.equals(id)){
                 return new BaseResponse<>(INVALID_JWT);
             }
 
-            petService.updatePet(request, multipartFile, petId);
+            diagnosisService.edit(petId, request);
             return new BaseResponse<>(SUCCESS);
-
         } catch (Exception e) {
             e.printStackTrace();
             return new BaseResponse<>(DATABASE_ERROR);
         }
     }
 
-    // 반려동물 정보 삭제
+    // 반려동물 질 출력
     @ResponseBody
-    @PatchMapping("delete/{petId}")
-    public BaseResponse<String> delete(@PathVariable Long petId){
+    @GetMapping("/print/{petId}")
+    public BaseResponse<GetDiagnosisRes> print(@PathVariable Long petId, @RequestBody PrintDiagnosisReq request) throws BaseException {
+
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String User = loggedInUser.getName();
 
@@ -108,13 +88,13 @@ public class PetController {
                 return new BaseResponse<>(INVALID_JWT);
             }
 
-            petService.deletePet(petId);
-            return new BaseResponse<>(SUCCESS);
+            String sentence = diagnosisService.print(petId, request);
+            return new BaseResponse<>(sentence);
 
         } catch (Exception e) {
             e.printStackTrace();
             return new BaseResponse<>(DATABASE_ERROR);
         }
-
     }
+
 }

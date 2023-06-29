@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PrintDiaryReq {
+public class EditDiaryReq {
 
-    String time;
+    String sentence;
 
     @Builder
-    public PrintDiaryReq(String time) {
-        this.time = time;
+    public EditDiaryReq(String sentence) {
+        this.sentence = sentence;
     }
 }
