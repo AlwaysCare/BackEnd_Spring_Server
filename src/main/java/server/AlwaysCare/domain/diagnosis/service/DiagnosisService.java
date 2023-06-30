@@ -9,8 +9,6 @@ import server.AlwaysCare.domain.diagnosis.dto.request.SaveDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.response.GetDiagnosisRes;
 import server.AlwaysCare.domain.diagnosis.entity.Diagnosis;
 import server.AlwaysCare.domain.diagnosis.repository.DiagnosisRepository;
-import server.AlwaysCare.domain.diary.dto.request.PrintDiaryReq;
-import server.AlwaysCare.domain.diary.entity.Diary;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
 
 import java.io.IOException;
@@ -56,8 +54,8 @@ public class DiagnosisService {
         String time = request.getTime();
 
         Diagnosis diagnosis  = diagnosisRepository.findByPetIdAndTime(petId, time).get();
-        String sentence = diagnosis.getSentence();
+        GetDiagnosisRes diagnosisRes = new GetDiagnosisRes(petId, diagnosis.getDisease(), diagnosis.getPercent());
 
-        return sentence;
+        return diagnosisRes;
     }
 }

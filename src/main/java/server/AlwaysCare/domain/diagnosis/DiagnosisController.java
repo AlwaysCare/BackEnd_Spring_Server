@@ -72,7 +72,7 @@ public class DiagnosisController {
         }
     }
 
-    // 반려동물 질 출력
+    // 반려동물 질병 출력
     @ResponseBody
     @GetMapping("/print/{petId}")
     public BaseResponse<GetDiagnosisRes> print(@PathVariable Long petId, @RequestBody PrintDiagnosisReq request) throws BaseException {
@@ -88,8 +88,8 @@ public class DiagnosisController {
                 return new BaseResponse<>(INVALID_JWT);
             }
 
-            String sentence = diagnosisService.print(petId, request);
-            return new BaseResponse<>(sentence);
+            GetDiagnosisRes getDiagnosisRes = diagnosisService.print(petId, request);
+            return new BaseResponse<>(getDiagnosisRes);
 
         } catch (Exception e) {
             e.printStackTrace();
