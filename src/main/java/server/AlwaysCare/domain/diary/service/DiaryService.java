@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.AlwaysCare.domain.diary.dto.request.EditDiaryReq;
-import server.AlwaysCare.domain.diary.dto.request.PrintDiaryReq;
 import server.AlwaysCare.domain.diary.dto.request.SaveDiaryReq;
 import server.AlwaysCare.domain.diary.entity.Diary;
 import server.AlwaysCare.domain.diary.repository.DiaryRepository;
@@ -47,11 +46,9 @@ public class DiaryService {
 
     // 일기 출력
     @Transactional
-    public String print(Long petId, PrintDiaryReq request) throws IOException {
+    public String print(Long petId, String date) throws IOException {
 
-        String time = request.getTime();
-
-        Diary diary = diaryRepository.findByPetIdAndTime(petId, time).get();
+        Diary diary = diaryRepository.findByPetIdAndTime(petId, date).get();
         String sentence = diary.getSentence();
 
         return sentence;

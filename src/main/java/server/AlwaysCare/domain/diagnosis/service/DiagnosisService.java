@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.AlwaysCare.domain.diagnosis.dto.request.EditDiagnosisReq;
-import server.AlwaysCare.domain.diagnosis.dto.request.PrintDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.request.SaveDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.response.GetDiagnosisRes;
 import server.AlwaysCare.domain.diagnosis.entity.Diagnosis;
@@ -49,11 +48,9 @@ public class DiagnosisService {
 
     // 질병 출력
     @Transactional
-    public GetDiagnosisRes print(Long petId, PrintDiagnosisReq request) throws IOException {
+    public GetDiagnosisRes print(Long petId, String date) throws IOException {
 
-        String time = request.getTime();
-
-        Diagnosis diagnosis  = diagnosisRepository.findByPetIdAndTime(petId, time).get();
+        Diagnosis diagnosis  = diagnosisRepository.findByPetIdAndTime(petId, date).get();
         GetDiagnosisRes diagnosisRes = new GetDiagnosisRes(petId, diagnosis.getDisease(), diagnosis.getPercent());
 
         return diagnosisRes;

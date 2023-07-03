@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import server.AlwaysCare.domain.diagnosis.dto.request.EditDiagnosisReq;
-import server.AlwaysCare.domain.diagnosis.dto.request.PrintDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.request.SaveDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.response.GetDiagnosisRes;
 import server.AlwaysCare.domain.diagnosis.service.DiagnosisService;
@@ -75,7 +74,7 @@ public class DiagnosisController {
     // 반려동물 질병 출력
     @ResponseBody
     @GetMapping("/print/{petId}")
-    public BaseResponse<GetDiagnosisRes> print(@PathVariable Long petId, @RequestBody PrintDiagnosisReq request) throws BaseException {
+    public BaseResponse<GetDiagnosisRes> print(@PathVariable Long petId, @RequestParam String date) throws BaseException {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String User = loggedInUser.getName();
@@ -88,7 +87,7 @@ public class DiagnosisController {
                 return new BaseResponse<>(INVALID_JWT);
             }
 
-            GetDiagnosisRes getDiagnosisRes = diagnosisService.print(petId, request);
+            GetDiagnosisRes getDiagnosisRes = diagnosisService.print(petId, date);
             return new BaseResponse<>(getDiagnosisRes);
 
         } catch (Exception e) {

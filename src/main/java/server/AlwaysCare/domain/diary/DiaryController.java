@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import server.AlwaysCare.domain.diary.dto.request.EditDiaryReq;
-import server.AlwaysCare.domain.diary.dto.request.PrintDiaryReq;
 import server.AlwaysCare.domain.diary.dto.request.SaveDiaryReq;
 import server.AlwaysCare.domain.diary.service.DiaryService;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
@@ -74,7 +73,7 @@ public class DiaryController {
     // 반려동물 일기 출력
     @ResponseBody
     @GetMapping("/print/{petId}")
-    public BaseResponse<String> print(@PathVariable Long petId, @RequestBody PrintDiaryReq request) throws BaseException {
+    public BaseResponse<String> print(@PathVariable Long petId, @RequestParam String date) throws BaseException {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String User = loggedInUser.getName();
@@ -87,7 +86,7 @@ public class DiaryController {
                 return new BaseResponse<>(INVALID_JWT);
             }
 
-            String sentence = diaryService.print(petId, request);
+            String sentence = diaryService.print(petId, date);
             return new BaseResponse<>(sentence);
 
         } catch (Exception e) {
