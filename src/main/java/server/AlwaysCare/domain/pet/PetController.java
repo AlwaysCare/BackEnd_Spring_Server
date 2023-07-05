@@ -60,6 +60,9 @@ public class PetController {
             }
 
             List<GetPetsInterface> petsResList = petService.getPetsList(userId);
+            if(petsResList.isEmpty()){
+                return new BaseResponse<>(NO_EXISTS_PETS);
+            }
             return new BaseResponse<>(petsResList);
 
         } catch (Exception e) {

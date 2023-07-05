@@ -33,5 +33,6 @@ public class BaseResponse<T> {
         this.isSuccess = status.isSuccess();
         this.message = status.getMessage();
         this.code = status.getCode();
+        this.result = null;
     }
 }
