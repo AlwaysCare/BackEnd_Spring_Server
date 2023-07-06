@@ -1,4 +1,4 @@
-package server.AlwaysCare.global.entity.config.security;
+package server.AlwaysCare.global.config.security;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import server.AlwaysCare.global.entity.config.security.jwt.JwtAuthenticationCheckFilter;
-import server.AlwaysCare.global.entity.config.security.jwt.JwtAuthenticationEntryPoint;
-import server.AlwaysCare.global.entity.config.security.jwt.JwtTokenProvider;
+import server.AlwaysCare.global.config.security.jwt.JwtTokenProvider;
+import server.AlwaysCare.global.config.security.jwt.JwtAuthenticationCheckFilter;
+import server.AlwaysCare.global.config.security.jwt.JwtAuthenticationEntryPoint;
 
 import java.util.Collections;
 
@@ -29,13 +29,8 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String[] PERMITTED_URLS = {
-            "/users/login",//로그인
             "/users/signup", //회원가입
-            "/users/kakao/auth", //토큰받는 api
-            "/v2/api-docs/**",  //swagger
-            "/swagger-ui/**", //swagger
-            "/swagger-resources/**", //swagger
-            "/users/nickname/{nickname}/validation"
+            "/users/login"//로그인
     };
 
     @Bean

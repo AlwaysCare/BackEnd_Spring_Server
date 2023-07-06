@@ -1,4 +1,4 @@
-package server.AlwaysCare.global.entity.config.security.jwt;
+package server.AlwaysCare.global.config.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import server.AlwaysCare.global.entity.config.Response.BaseResponse;
+import server.AlwaysCare.global.config.Response.BaseResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import static server.AlwaysCare.global.entity.config.Response.BaseResponseStatus.INVALID_JWT;
+import static server.AlwaysCare.global.config.Response.BaseResponseStatus.INVALID_JWT;
 
 
 /*

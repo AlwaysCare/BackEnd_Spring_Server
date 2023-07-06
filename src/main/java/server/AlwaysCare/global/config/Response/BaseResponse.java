@@ -1,4 +1,4 @@
-package server.AlwaysCare.global.entity.config.Response;
+package server.AlwaysCare.global.config.Response;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import static server.AlwaysCare.global.entity.config.Response.BaseResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor
@@ -22,9 +20,9 @@ public class BaseResponse<T> {
 
     /* 요청에 성공한 경우 */
     public BaseResponse(T result) {
-        this.isSuccess = SUCCESS.isSuccess();
-        this.message = SUCCESS.getMessage();
-        this.code = SUCCESS.getCode();
+        this.isSuccess = BaseResponseStatus.SUCCESS.isSuccess();
+        this.message = BaseResponseStatus.SUCCESS.getMessage();
+        this.code = BaseResponseStatus.SUCCESS.getCode();
         this.result = result;
     }
 

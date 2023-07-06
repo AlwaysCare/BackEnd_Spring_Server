@@ -10,12 +10,10 @@ import server.AlwaysCare.domain.pet.dto.request.SavePetReq;
 import server.AlwaysCare.domain.pet.dto.response.GetPetsInterface;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
 import server.AlwaysCare.domain.pet.service.PetService;
-import server.AlwaysCare.global.entity.config.Response.BaseException;
-import server.AlwaysCare.global.entity.config.Response.BaseResponse;
+import server.AlwaysCare.global.config.Response.BaseException;
+import server.AlwaysCare.global.config.Response.BaseResponse;
 
 import java.util.List;
-
-import static server.AlwaysCare.global.entity.config.Response.BaseResponseStatus.*;
 
 @RestController
 @RequiredArgsConstructor

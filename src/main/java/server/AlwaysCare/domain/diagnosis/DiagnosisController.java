@@ -9,10 +9,8 @@ import server.AlwaysCare.domain.diagnosis.dto.request.SaveDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.response.GetDiagnosisRes;
 import server.AlwaysCare.domain.diagnosis.service.DiagnosisService;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
-import server.AlwaysCare.global.entity.config.Response.BaseException;
-import server.AlwaysCare.global.entity.config.Response.BaseResponse;
-
-import static server.AlwaysCare.global.entity.config.Response.BaseResponseStatus.*;
+import server.AlwaysCare.global.config.Response.BaseException;
+import server.AlwaysCare.global.config.Response.BaseResponse;
 
 @RestController
 @RequiredArgsConstructor

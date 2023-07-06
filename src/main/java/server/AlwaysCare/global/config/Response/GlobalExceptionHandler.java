@@ -1,4 +1,4 @@
-package server.AlwaysCare.global.entity.config.Response;
+package server.AlwaysCare.global.config.Response;
 
 
 import lombok.extern.slf4j.Slf4j;

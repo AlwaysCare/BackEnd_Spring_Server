@@ -1,4 +1,4 @@
-package server.AlwaysCare.global.entity.config.security.jwt;
+package server.AlwaysCare.global.config.security.jwt;
 
 
 import lombok.RequiredArgsConstructor;

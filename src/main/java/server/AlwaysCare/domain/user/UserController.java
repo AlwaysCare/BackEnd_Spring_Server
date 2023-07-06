@@ -7,9 +7,9 @@ import server.AlwaysCare.domain.user.dto.request.LoginReq;
 import server.AlwaysCare.domain.user.dto.request.SignUpReq;
 import server.AlwaysCare.domain.user.dto.response.LoginRes;
 import server.AlwaysCare.domain.user.service.UserService;
-import server.AlwaysCare.global.entity.config.Response.BaseException;
-import server.AlwaysCare.global.entity.config.Response.BaseResponse;
-import server.AlwaysCare.global.entity.config.Response.BaseResponseStatus;
+import server.AlwaysCare.global.config.Response.BaseException;
+import server.AlwaysCare.global.config.Response.BaseResponse;
+import server.AlwaysCare.global.config.Response.BaseResponseStatus;
 
 @RestController
 @RequiredArgsConstructor

@@ -8,12 +8,12 @@ import server.AlwaysCare.domain.user.dto.request.SignUpReq;
 import server.AlwaysCare.domain.user.dto.response.LoginRes;
 import server.AlwaysCare.domain.user.entity.UserAccount;
 import server.AlwaysCare.domain.user.repository.UserRepository;
-import server.AlwaysCare.global.entity.config.Response.BaseException;
-import server.AlwaysCare.global.entity.config.security.jwt.JwtTokenProvider;
+import server.AlwaysCare.global.config.Response.BaseException;
+import server.AlwaysCare.global.config.security.jwt.JwtTokenProvider;
 
 import java.util.Optional;
 
-import static server.AlwaysCare.global.entity.config.Response.BaseResponseStatus.POST_USERS_NO_EXISTS_USER;
+import static server.AlwaysCare.global.config.Response.BaseResponseStatus.POST_USERS_NO_EXISTS_USER;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

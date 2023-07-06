@@ -8,10 +8,8 @@ import server.AlwaysCare.domain.diary.dto.request.EditDiaryReq;
 import server.AlwaysCare.domain.diary.dto.request.SaveDiaryReq;
 import server.AlwaysCare.domain.diary.service.DiaryService;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
-import server.AlwaysCare.global.entity.config.Response.BaseException;
-import server.AlwaysCare.global.entity.config.Response.BaseResponse;
-
-import static server.AlwaysCare.global.entity.config.Response.BaseResponseStatus.*;
+import server.AlwaysCare.global.config.Response.BaseException;
+import server.AlwaysCare.global.config.Response.BaseResponse;
 
 @RestController
 @RequiredArgsConstructor

@@ -28,9 +28,10 @@ public class S3Service {
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
         UUID fileNameUUID = UUID.randomUUID();
+
         //파일 형식 구하기
         String ext = Objects.requireNonNull(fileName).split("\\.")[1];
-        fileName = fileNameUUID+"."+ext;
+        fileName = fileNameUUID + "." + ext;
         String contentType = "";
 
         //content type 지정
@@ -49,12 +50,14 @@ public class S3Service {
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
+
             //S3 upload
             amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (AmazonServiceException e) {
             e.printStackTrace();
         }
+
         //이미지 주소 리턴
         return amazonS3.getUrl(bucket, fileName).toString();
     }
