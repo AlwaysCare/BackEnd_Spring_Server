@@ -26,11 +26,21 @@ public class DiagnosisService {
     @Transactional
     public Long save(Long petId, SaveDiagnosisReq request) throws IOException {
 
-        Diagnosis diagnosis = new Diagnosis(petRepository.findById(petId).get(),
-                request.getDisease(),
-                request.getPercent(),
-                "A");
+        int diagnosisCheck = request.getDisease();
 
+        Diagnosis diagnosis;
+        if(diagnosisCheck == 1000){
+            diagnosis = new Diagnosis(petRepository.findById(petId).get(),
+                    request.getDisease(),
+                    100,
+                    "A");
+        } else{
+
+            diagnosis = new Diagnosis(petRepository.findById(petId).get(),
+                    request.getDisease(),
+                    request.getPercent(),
+                    "A");
+        }
         Long id = diagnosisRepository.save(diagnosis).getId();
 
         return id;

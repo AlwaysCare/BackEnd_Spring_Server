@@ -3,6 +3,7 @@ package server.AlwaysCare.domain.pet.service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class S3Service {
     private String bucket;
     private final AmazonS3 amazonS3;
 
+    // 파일 업로드
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
         UUID fileNameUUID = UUID.randomUUID();
@@ -60,5 +62,11 @@ public class S3Service {
 
         //이미지 주소 리턴
         return amazonS3.getUrl(bucket, fileName).toString();
+    }
+
+    // 파일 삭제
+    public void deleteFile(String fileName){
+        DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
+        amazonS3.deleteObject(request);
     }
 }

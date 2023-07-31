@@ -47,9 +47,9 @@ public class PetService {
         return getPetsResList;
     }
 
-    // 반려동물 정보 수정
+    // 반려동물 모든 정보 수정
     @Transactional
-    public void updatePet(EditPetReq request, MultipartFile multipartFile, Long petId) throws IOException {
+    public void updateAllPet(EditPetReq request, MultipartFile multipartFile, Long petId) throws IOException {
 
         Long userId = petRepository.findById(petId).get().getUser().getId();
 
@@ -63,11 +63,28 @@ public class PetService {
                 "A");
     }
 
+    // 반려동물 정보 수정
+    @Transactional
+    public void updatePet(EditPetReq request, Long petId) throws IOException {
+
+        Long userId = petRepository.findById(petId).get().getUser().getId();
+
+        PetAccount petAccount = petRepository.findByIdAndStatus(petId, "A").get();
+        petAccount.editPet(userRepository.findById(userId).get(),
+                request.getName(),
+                petAccount.getImageURL(),
+                request.getAge(),
+                request.getType(),
+                request.getSpecies(),
+                "A");
+    }
+
     // 반려동물 정보 삭제
     @Transactional
     public void deletePet(Long petId) throws IOException {
-
         PetAccount petAccount = petRepository.findByIdAndStatus(petId, "A").get();
+        String imageURL = petAccount.getImageURL();
+        s3Service.deleteFile(imageURL);
         petAccount.deletePet("D");
     }
 

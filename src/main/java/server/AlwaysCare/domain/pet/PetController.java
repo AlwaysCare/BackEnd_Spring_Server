@@ -83,10 +83,10 @@ public class PetController {
         }
     }
 
-    // 반려동물 정보 수정
+    // 반려동물 모든 정보 수정
     @ResponseBody
-    @PatchMapping ("/edit/{petId}")
-    public BaseResponse<String> edit(@PathVariable Long petId, @RequestPart(value = "EditPetReq") EditPetReq request, @RequestPart(value = "file", required = false) MultipartFile multipartFile) throws BaseException {
+    @PatchMapping ("/editAll/{petId}")
+    public BaseResponse<String> editAll(@PathVariable Long petId, @RequestPart(value = "EditPetReq") EditPetReq request, @RequestPart(value = "file", required = false) MultipartFile multipartFile) throws BaseException {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String User = loggedInUser.getName();
@@ -107,7 +107,40 @@ public class PetController {
                 return new BaseResponse<>(INVALID_JWT);
             }
 
-            petService.updatePet(request, multipartFile, petId);
+            petService.updateAllPet(request, multipartFile, petId);
+            return new BaseResponse<>(SUCCESS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new BaseResponse<>(DATABASE_ERROR);
+        }
+    }
+
+    // 반려동물 정보 수정
+    @ResponseBody
+    @PatchMapping ("/edit/{petId}")
+    public BaseResponse<String> edit(@PathVariable Long petId, @RequestBody EditPetReq request) throws BaseException {
+
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String User = loggedInUser.getName();
+
+        long id = Long.parseLong(User);
+        Long userId;
+
+        try {
+            Optional<PetAccount> petAccount = petRepository.findByIdAndStatus(petId, "A");
+            if(petAccount.isPresent()){
+                userId = petAccount.get().getUser().getId();
+            }
+            else{
+                return new BaseResponse<>(NO_EXISTS_PETS);
+            }
+
+            if(!userId.equals(id)){
+                return new BaseResponse<>(INVALID_JWT);
+            }
+
+            petService.updatePet(request, petId);
             return new BaseResponse<>(SUCCESS);
 
         } catch (Exception e) {
