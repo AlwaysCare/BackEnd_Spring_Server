@@ -8,12 +8,17 @@ import org.springframework.web.multipart.MultipartFile;
 import server.AlwaysCare.domain.pet.dto.request.EditPetReq;
 import server.AlwaysCare.domain.pet.dto.request.SavePetReq;
 import server.AlwaysCare.domain.pet.dto.response.GetPetsInterface;
+import server.AlwaysCare.domain.pet.entity.PetAccount;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
 import server.AlwaysCare.domain.pet.service.PetService;
 import server.AlwaysCare.global.config.Response.BaseException;
 import server.AlwaysCare.global.config.Response.BaseResponse;
 
 import java.util.List;
+import java.util.Optional;
+
+import static server.AlwaysCare.global.config.Response.BaseResponseStatus.*;
+import static server.AlwaysCare.global.utils.FileCheck.checkImage;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,8 +39,17 @@ public class PetController {
         long id = Long.parseLong(User);
 
         try {
-            Long petId = petService.save(request, multipartFile, id);
-            return new BaseResponse<Long>(petId);
+            if(multipartFile != null){
+                if(!checkImage(multipartFile)){
+                    return new BaseResponse<>(INVALID_IMAGE_FILE);
+                }
+                Long petId = petService.save(request, multipartFile, id);
+                return new BaseResponse<Long>(petId);
+            }
+            else {
+                Long petId = petService.save(request, multipartFile, id);
+                return new BaseResponse<Long>(petId);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new BaseResponse<>(DATABASE_ERROR);
@@ -78,9 +92,17 @@ public class PetController {
         String User = loggedInUser.getName();
 
         long id = Long.parseLong(User);
+        Long userId;
 
         try {
-            Long userId = petRepository.findById(petId).get().getUser().getId();
+            Optional<PetAccount> petAccount = petRepository.findByIdAndStatus(petId, "A");
+            if(petAccount.isPresent()){
+                userId = petAccount.get().getUser().getId();
+            }
+            else{
+                return new BaseResponse<>(NO_EXISTS_PETS);
+            }
+
             if(!userId.equals(id)){
                 return new BaseResponse<>(INVALID_JWT);
             }
@@ -102,9 +124,17 @@ public class PetController {
         String User = loggedInUser.getName();
 
         long id = Long.parseLong(User);
+        Long userId;
 
         try {
-            Long userId = petRepository.findById(petId).get().getUser().getId();
+            Optional<PetAccount> petAccount = petRepository.findByIdAndStatus(petId, "A");
+            if(petAccount.isPresent()){
+                userId = petAccount.get().getUser().getId();
+            }
+            else{
+                return new BaseResponse<>(NO_EXISTS_PETS);
+            }
+
             if(!userId.equals(id)){
                 return new BaseResponse<>(INVALID_JWT);
             }

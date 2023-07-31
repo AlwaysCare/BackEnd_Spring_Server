@@ -12,6 +12,8 @@ import server.AlwaysCare.domain.pet.repository.PetRepository;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -54,4 +56,16 @@ public class DiaryService {
         return sentence;
     }
 
+    @Transactional
+    public List<String> list(Long petId) throws IOException{
+        List<Timestamp> timeList = diaryRepository.findDayByPetId(petId);
+
+        List<String> list = new ArrayList<>();
+        for(Timestamp timestamp : timeList){
+            String date = new SimpleDateFormat("yyyy/MM/dd").format(timestamp);
+            list.add(date);
+        }
+
+        return list;
+    }
 }

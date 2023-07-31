@@ -8,9 +8,14 @@ import server.AlwaysCare.domain.diagnosis.dto.request.EditDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.request.SaveDiagnosisReq;
 import server.AlwaysCare.domain.diagnosis.dto.response.GetDiagnosisRes;
 import server.AlwaysCare.domain.diagnosis.service.DiagnosisService;
+import server.AlwaysCare.domain.pet.entity.PetAccount;
 import server.AlwaysCare.domain.pet.repository.PetRepository;
 import server.AlwaysCare.global.config.Response.BaseException;
 import server.AlwaysCare.global.config.Response.BaseResponse;
+
+import java.util.Optional;
+
+import static server.AlwaysCare.global.config.Response.BaseResponseStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +34,17 @@ public class DiagnosisController {
         String User = loggedInUser.getName();
 
         long id = Long.parseLong(User);
+        Long userId;
 
         try {
-            Long userId = petRepository.findById(petId).get().getUser().getId();
+            Optional<PetAccount> petAccount = petRepository.findByIdAndStatus(petId, "A");
+            if(petAccount.isPresent()){
+                userId = petAccount.get().getUser().getId();
+            }
+            else{
+                return new BaseResponse<>(NO_EXISTS_PETS);
+            }
+
             if(!userId.equals(id)){
                 return new BaseResponse<>(INVALID_JWT);
             }
@@ -53,9 +66,16 @@ public class DiagnosisController {
         String User = loggedInUser.getName();
 
         long id = Long.parseLong(User);
+        Long userId;
 
         try {
-            Long userId = petRepository.findById(petId).get().getUser().getId();
+            Optional<PetAccount> petAccount = petRepository.findByIdAndStatus(petId, "A");
+            if(petAccount.isPresent()){
+                userId = petAccount.get().getUser().getId();
+            }
+            else{
+                return new BaseResponse<>(NO_EXISTS_PETS);
+            }
 
             if(!userId.equals(id)){
                 return new BaseResponse<>(INVALID_JWT);
@@ -78,9 +98,17 @@ public class DiagnosisController {
         String User = loggedInUser.getName();
 
         long id = Long.parseLong(User);
+        Long userId;
 
         try {
-            Long userId = petRepository.findById(petId).get().getUser().getId();
+            Optional<PetAccount> petAccount = petRepository.findByIdAndStatus(petId, "A");
+            if(petAccount.isPresent()){
+                userId = petAccount.get().getUser().getId();
+            }
+            else{
+                return new BaseResponse<>(NO_EXISTS_PETS);
+            }
+
             if(!userId.equals(id)){
                 return new BaseResponse<>(INVALID_JWT);
             }
